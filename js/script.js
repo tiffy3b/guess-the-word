@@ -19,9 +19,27 @@ const dotGuess = function (word){ //function to add dot placeholders for the wor
 };
     dotGuess(word);
 
-guessButton.addEventListener("click", function (e) {
+guessButton.addEventListener("click", function (e) { //shows result in console when the button is pressed
     e.preventDefault();
-    const buttonText = inputText.value;
-    console.log(buttonText);
-    inputText.value =  "";
+    //prevents reloading behavior
+    mainWord.innerText = ""; 
+    //emptys text for the .message element
+   
 });
+
+const playersInput = function (inputText) {
+    //validates the player's input
+    const acceptedLetter = /[a-zA-Z]/;
+    //regular expression
+    if (inputText.length === 0) {
+        mainWord.innerText = "Please enter a letter"; }
+        else if (!inputText.match(acceptedLetter)) { 
+            mainWord.innerText = "Enter only one letter";
+    }   
+        else {
+            return inputText;
+        }
+
+};
+    
+playersInput(inputText);
