@@ -4,13 +4,14 @@ const inputText = document.querySelector(".letter"); //text input
 const wordProgress = document.querySelector(".word-in-progress"); //paragraph where the word in progress will appear
 const leftGuesses = document.querySelector(".remaining"); //remaining guesses will display
 const countDown = document.querySelector(".remaining span"); //countdown for guesses left
-const mainWord = document.querySelector(".message"); //the word that is being guessed
+const mainWord = document.querySelector(".message"); //message for users progress
 const theEnd = document.querySelector(".play-again"); //prompt to play again
 
 const word = "magnolia"; 
 //test word to start
 const guessedLetters = [];
 //holds all the letters the player guessed
+let remainingGuesses = 8;
 
 const dotGuess = function (word){ 
     //function to add dot placeholders for the word to be guessed
@@ -55,17 +56,18 @@ const playersInput = function (input) {
             return input;
         }
 };
-const makeGuess = function (letter){
-    letter = letter.toUpperCase();
-    if(guessedLetters.includes(letter)){
+const makeGuess = function (guess){
+    guess = guess.toUpperCase();
+    if(guessedLetters.includes(guess)){
         mainWord.innerText = "You already guessed that letter";
     }
     else {
-        guessedLetters.push(letter);
+        guessedLetters.push(guess);
         console.log(guessedLetters);
+        countItDown(guess);
         guessed();
+        updateProgress(guessedLetters);
     }
-    updateProgress(guessedLetters);
 };
 const guessed = function (){
     lettersGuessed.innerHTML = "";
@@ -88,6 +90,22 @@ const updateProgress = function (guessedLetters){
     }
 wordProgress.innerText = showLetter.join("");
 winner();
+};
+const countItDown = function (guess){
+    const upperWord = word.toUpperCase();
+    if (!upperWord.includes(guess)) {
+        mainWord.innerText = `Sorry, there is no ${guess} in this word`;
+        remainingGuesses -=1;
+    }   else {
+        mainWord.innerText = `Woo hoo! ${guess} is in this word`;
+    }
+    if (remainingGuesses === 0) {
+        mainWord.innerHTML = `Game Over! The word is <span class="highlight">${word}</span>.`;
+    }   else if (remainingGuesses === 1){
+        countDown.innerText = `${remainingGuesses} guess`;
+    }   else {
+        countDown.innerText = `${remainingGuesses} guesses`;
+    }
 };
 const winner = function (){
     if (word.toUpperCase() === wordProgress.innerText) {
