@@ -7,11 +7,23 @@ const countDown = document.querySelector(".remaining span"); //countdown for gue
 const mainWord = document.querySelector(".message"); //message for users progress
 const theEnd = document.querySelector(".play-again"); //prompt to play again
 
-const word = "magnolia"; 
+let word = "world"; 
 //test word to start
 const guessedLetters = [];
 //holds all the letters the player guessed
 let remainingGuesses = 8;
+//number of guesses to start off
+const getWord = async function () {
+    const res = await fetch ("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
+    const data = await res.text();
+    const wordArray = data.split("\n");
+    const randomWord = Math.floor(Math.random() * wordArray.length);
+    word = wordArray[randomWord].trim();
+    dotGuess(word);
+};
+getWord();
+
+
 
 const dotGuess = function (word){ 
     //function to add dot placeholders for the word to be guessed
