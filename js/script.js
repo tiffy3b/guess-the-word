@@ -9,7 +9,7 @@ const theEnd = document.querySelector(".play-again"); //prompt to play again
 
 let word = "world"; 
 //test word to start
-const guessedLetters = [];
+let guessedLetters = [];
 //holds all the letters the player guessed
 let remainingGuesses = 8;
 //number of guesses to start off
@@ -113,15 +113,42 @@ const countItDown = function (guess){
     }
     if (remainingGuesses === 0) {
         mainWord.innerHTML = `Game Over! The word is <span class="highlight">${word}</span>.`;
+        countDown.innerHTML = `${remainingGuesses} guesses`;
+        startOver();
     }   else if (remainingGuesses === 1){
         countDown.innerText = `${remainingGuesses} guess`;
     }   else {
         countDown.innerText = `${remainingGuesses} guesses`;
     }
 };
+
+
 const winner = function (){
     if (word.toUpperCase() === wordProgress.innerText) {
         mainWord.classList.add("win");
         mainWord.innerHTML = `<p class="highlight">You guessed the correct word! Congrats! </p>`;
+        startOver();
     }
 };
+
+const startOver = function () {
+    guessButton.classList.add("hide");
+    leftGuesses.classList.add(".hide");
+    lettersGuessed.classList.add("hide");
+    theEnd.classList.remove("hide");
+}
+theEnd.addEventListener ("click", function() {
+    mainWord.classList.remove("win");
+    guessedLetters = [];
+    remainingGuesses = 8;
+    countDown.innerText = `${remainingGuesses} guesses`;
+    lettersGuessed.innerHTML = "";
+    mainWord.innerHTML = "";
+    getWord();
+
+    guessButton.classList.remove("hide");
+    leftGuesses.classList.remove(".hide");
+    lettersGuessed.classList.remove("hide");
+    theEnd.classList.add("hide");
+    
+});
